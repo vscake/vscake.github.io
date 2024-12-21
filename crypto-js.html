@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+	<!-- 引入 CDN Crypto.js 开始 AES加密 注意引入顺序 -->
+	<script src="https://cdn.bootcdn.net/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+	<!-- 引入 CDN Crypto.js 结束 -->
+</head>
+<body>
+<script>
+	var key_decrypt = "s4ZjPXcM/a60rpOc0n1JZ5ncmD3uF46QAUeA0gH7XsE=";
+	var data = ""; // 需要加密的字符串
+	var key_base = "cD1dD5aA1oE0eR0aC8"; // 加密秘钥的基值
+	var iv_base = "bH1hA1hB5tP2dD5aF2"; // 加密所需iv基值
+	var get = function(a) {
+		var key_hash = CryptoJS.MD5(key_base);
+		var key = CryptoJS.enc.Utf8.parse(key_hash);
+		var iv = CryptoJS.enc.Utf8.parse(iv_base);
+		var res = CryptoJS.AES.encrypt(a, key, {
+			iv: iv,
+			mode: CryptoJS.mode.CBC,
+			padding: CryptoJS.pad.ZeroPadding
+		});
+		return res.toString();
+	}
+	
+	var push = function(b) {
+		var key_hash = CryptoJS.MD5(key_base);
+		var key = CryptoJS.enc.Utf8.parse(key_hash);
+		var iv = CryptoJS.enc.Utf8.parse(iv_base);
+		var res = CryptoJS.AES.decrypt(b, key, {
+			iv: iv,
+			mode: CryptoJS.mode.CBC,
+			padding: CryptoJS.pad.ZeroPadding
+		});
+		return res.toString();
+	}
+
+	console.log(get(data));
+	console.log(push(key_decrypt));
+	
+</script>
+
+</body>
+</html>
